@@ -1,0 +1,67 @@
+﻿@model Ionici_Floriana_Proiect.Models.Owners
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Owners</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="OwnerName" class="control-label"></label>
+                <input asp-for="OwnerName" class="form-control" />
+                <span asp-validation-for="OwnerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Adress" class="control-label"></label>
+                <input asp-for="Adress" class="form-control" />
+                <span asp-validation-for="Adress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+
+                                List<Ionici_Floriana_Proiect.Models.BakeryViewModels.OwnedCakeData> cakes =
+                                ViewBag.Cakes;
+                                foreach (var cake in cakes)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedCakes"
+                                               value="@cake.CakeID"
+                                               @(Html.Raw(cake.IsOwned ? "checked=\"checked\"" : "")) />
+                                        @cake.CakeID @: @cake.Name
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
